@@ -18,6 +18,36 @@ Ecom/
 - Frontend: Vue 3, Vue Router, Vuex, Axios, Bulma
 - Tooling: Docker Compose
 
+## Screenshots
+
+### Latest Products
+
+![Latest products page](docs/LatestProducts.png)
+
+### Categories
+
+![Categories page](docs/Categories.png)
+
+### Search
+
+![Search page](docs/Search.png)
+
+### Cart
+
+![Cart page](docs/cart.png)
+
+### Checkout
+
+![Checkout page](docs/checkout.png)
+
+### My Account
+
+![My account page](docs/MyAccount.png)
+
+### Backend
+
+![Backend API page](docs/Backend.png)
+
 ## Run With Docker
 
 Requirements:
