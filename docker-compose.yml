@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./ecom_django
+    command: sh -c "python manage.py migrate && python manage.py seed_demo_data && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_DEBUG: "1"
+      DJANGO_SECRET_KEY: "dev-only-change-me"
+      DJANGO_ALLOWED_HOSTS: "*"
+      CORS_ALLOW_ALL: "1"
+      MEDIA_BASE_URL: "http://127.0.0.1:8000"
+      SQLITE_PATH: "/app/data/db.sqlite3"
+    ports:
+      - "8000:8000"
+    volumes:
+      - django_data:/app/data
+      - ./ecom_django/media:/app/media
+
+  frontend:
+    build:
+      context: ./ecom_vue
+    environment:
+      VUE_APP_API_URL: "http://127.0.0.1:8000/"
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+
+volumes:
+  django_data:

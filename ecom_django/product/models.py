@@ -1,6 +1,7 @@
 from django.db import models
 from io import BytesIO
 from PIL import Image
+from django.conf import settings
 from django.core.files import File
 from django.db.models.fields import BLANK_CHOICE_DASH
 # Create your models here.
@@ -38,17 +39,17 @@ class Product(models.Model):
     
     def get_image(self):
         if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url 
+            return settings.MEDIA_BASE_URL.rstrip('/') + self.image.url
         return ''
 
     def get_thumbnail(self):
         if self.thumbnail:
-            return 'http://127.0.0.1:8000' + self.thumbnail.url
+            return settings.MEDIA_BASE_URL.rstrip('/') + self.thumbnail.url
         else:
             if self.image:
                 self.thumbnail= self.make_thumbnail(self.image)
                 self.save()
-                return 'http://127.0.0.1:8000' + self.thumbnail.url
+                return settings.MEDIA_BASE_URL.rstrip('/') + self.thumbnail.url
             else:
                 return ''
 

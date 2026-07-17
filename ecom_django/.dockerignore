@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+db.sqlite3
+media/uploads/*
+!media/uploads/.gitkeep
+!media/uploads/summer1.jpg
+!media/uploads/winter3.jpg
+.env
+*.log

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+*.egg-info/
+
+# Django
+*.sqlite3
+db.sqlite3
+ecom_django/media/uploads/*
+!ecom_django/media/uploads/.gitkeep
+!ecom_django/media/uploads/summer1.jpg
+!ecom_django/media/uploads/winter3.jpg
+staticfiles/
+
+# Node / Vue
+node_modules/
+dist/
+.cache/
+.eslintcache
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
