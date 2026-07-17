@@ -21,6 +21,7 @@ services:
       context: ./ecom_vue
     environment:
       VUE_APP_API_URL: "http://127.0.0.1:8000/"
+      VUE_APP_STRIPE_PUBLIC_KEY: "pk_test_51H1HiuKBJV2qfWbD2gQe6aqanfw6Eyul5PO2KeOuSRlUMuaV4TxEtaQyzr9DbLITSZweL7XjK3p74swcGYrE2qEX00Hz7GmhMI"
       CHOKIDAR_USEPOLLING: "true"
     ports:
       - "8080:8080"

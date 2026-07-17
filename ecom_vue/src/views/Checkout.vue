@@ -118,6 +118,30 @@
 
 <script>
 import axios from 'axios'
+
+const stripePublicKey = process.env.VUE_APP_STRIPE_PUBLIC_KEY || 'pk_test_51H1HiuKBJV2qfWbD2gQe6aqanfw6Eyul5PO2KeOuSRlUMuaV4TxEtaQyzr9DbLITSZweL7XjK3p74swcGYrE2qEX00Hz7GmhMI'
+
+function loadStripeFromWindow() {
+    return new Promise((resolve) => {
+        if (window.Stripe) {
+            resolve(window.Stripe(stripePublicKey))
+            return
+        }
+
+        let attempts = 0
+        const timer = window.setInterval(() => {
+            attempts += 1
+            if (window.Stripe) {
+                window.clearInterval(timer)
+                resolve(window.Stripe(stripePublicKey))
+            } else if (attempts >= 50) {
+                window.clearInterval(timer)
+                resolve(null)
+            }
+        }, 100)
+    })
+}
+
 export default {
     name: 'Checkout',
     data() {
@@ -137,11 +161,15 @@ export default {
             errors: []
         }
     },
-    mounted() {
+    async mounted() {
         document.title = 'Checkout | Djackets'
         this.cart = this.$store.state.cart
         if (this.cartTotalLength > 0) {
-            this.stripe = Stripe('pk_test_51H1HiuKBJV2qfWbD2gQe6aqanfw6Eyul5PO2KeOuSRlUMuaV4TxEtaQyzr9DbLITSZweL7XjK3p74swcGYrE2qEX00Hz7GmhMI')
+            this.stripe = await loadStripeFromWindow()
+            if (!this.stripe) {
+                this.errors.push('Stripe could not be loaded. Please refresh and try again.')
+                return
+            }
             const elements = this.stripe.elements();
             this.card = elements.create('card', { hidePostalCode: true })
             this.card.mount('#card-element')
@@ -175,6 +203,10 @@ export default {
                 this.errors.push('The place field is missing!')
             }
             if (!this.errors.length) {
+                if (!this.stripe || !this.card) {
+                    this.errors.push('Stripe is still loading. Please try again in a moment.')
+                    return
+                }
                 this.$store.commit('setIsLoading', true)
                 this.stripe.createToken(this.card).then(result => {                    
                     if (result.error) {
